@@ -16,7 +16,8 @@ struct Init {
     name: String,
     #[arg(short = 'p', long = "path")]
     #[arg(required = false)]
-    path: String,
+    //#[arg(default_value_os_t())]
+    path: Option<String>,
 }
 
 #[derive(Parser, Debug)]
@@ -33,8 +34,18 @@ fn main() {
     let cli = CLI::parse();
     match &cli.command {
         Commands::Init(init) => {
-            let path = Path::new(&init.path);
-            setup(&init.name, &path);
+            match &init.path {
+                Some(p) => {
+                    let path = Path::new(&p);
+                    setup(&init.name, &path);
+                },
+                None => {
+                    let path = std::env::current_dir()
+                        .expect("Error while fetching current working directory");
+                    setup(&init.name, &path)
+                }
+            }
+
         }
     }
 
