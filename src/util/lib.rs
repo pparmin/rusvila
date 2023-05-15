@@ -5,7 +5,7 @@ pub fn setup(name: &String, path: &Path) {
     let root_dir = format!("{}/{}", path.display(), name);
     println!("Creating root directory for project {} in the following directory: {}", name, path.display());
     println!("Root path: {}", root_dir);
-    fs::create_dir(Path::new(&root_dir)).expect("Error while creating root directory");
+    fs::create_dir_all(Path::new(&root_dir)).expect("Error while creating root directory");
     let pages_dir = format!("{}/pages", root_dir);
     let static_dir = format!("{}/static", root_dir);
     let templates_dir = format!("{}/templates", root_dir);
