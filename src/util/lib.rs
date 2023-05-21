@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 //use std::fs::{File, create_dir_all};
 
 static INDEX_MD: &str = 
@@ -28,6 +28,20 @@ static HOMEPAGE: &str =
 </html>
 ";
 
+pub struct Blog {
+  pub name: String,
+  pub location: PathBuf,
+}
+
+impl Blog {
+  pub fn new() -> Self {
+    Blog {
+      name: String::new(), 
+      location: std::env::current_dir().unwrap(),
+    }
+  }
+}
+
 
 pub fn setup(name: &String, path: &Path) {
     let root_dir = format!("{}/{}", path.display(), name);
@@ -51,4 +65,8 @@ pub fn setup(name: &String, path: &Path) {
     let homepage_html = format!("{}/homepage.html", &templates_dir);
     std::fs::write(default_html, DEFAULT).expect("error while creating default.html in templates directory");
     std::fs::write(homepage_html, HOMEPAGE).expect("error while creating homepage.html in templates directory");
+}
+
+pub fn build(project_root: PathBuf) {
+  todo!()
 }
