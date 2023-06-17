@@ -9,3 +9,5 @@ path = "src/util/lib.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 clap = { version = "4.1.4", features = ["derive"] }
+handlebars = { version = "4.3.7", features = ["dir_source"] }
+markdown = "1.0.0-alpha.10"
