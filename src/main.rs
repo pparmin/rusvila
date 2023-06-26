@@ -2,7 +2,7 @@ use std::path::Path;
 
 use clap::{Args, Parser, Subcommand};
 
-use rusvila::{build, remove, setup, Blog};
+use rusvila::{Blog};
 
 #[derive(Subcommand, Debug)]
 
@@ -50,21 +50,23 @@ fn main() {
     match &cli.command {
         Commands::Init(init) => match &init.path {
             Some(p) => {
-                setup(&init.name, Path::new(&p));
-                project.name = init.name.clone();
-                project.location = Path::new(&p).to_path_buf();
+                project.setup(&init.name, Path::new(&p));
+                // project.name = init.name.clone();
+                // project.location = Path::new(&p).to_path_buf();
+                // should be moved into setup() function
+                // project.write_config();
             }
 
             None => {
                 let path = std::env::current_dir()
                     .expect("Error while fetching current working directory");
-                setup(&init.name, &path);
-                project.name = init.name.clone();
-                project.location = path.to_path_buf();
+                project.setup(&init.name, &path);
+                // project.name = init.name.clone();
+                // project.location = path.to_path_buf();
             }
         },
-        Commands::Build => build(project.location),
+        Commands::Build => project.build(),
 
-        Commands::Remove => remove(project.location),
+        Commands::Remove => project.remove(),
     }
 }
